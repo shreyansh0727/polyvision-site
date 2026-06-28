@@ -1,0 +1,2 @@
+# Serve the password reset page for all /reset-password/* paths
+/reset-password/*  /reset-password.html  200

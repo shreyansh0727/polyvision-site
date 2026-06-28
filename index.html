@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PolyVision — Know where your team is. Always.</title>
+<meta name="description" content="Simple, affordable field workforce tracking for Indian businesses. GPS, geofencing, tasks, attendance, and voice calls. ₹999 one-time.">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo-32.png">
+<link rel="apple-touch-icon" sizes="128x128" href="/logo-128.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #060B14;
+    --surface: #0E1525;
+    --surface2: #131C2E;
+    --green: #0ED86B;
+    --green-dim: rgba(14,216,107,0.07);
+    --rose: #F2537B;
+    --amber: #F4A526;
+    --blue: #4D8FF7;
+    --purple: #8B5CF6;
+    --teal: #14B8A6;
+    --text: #E8EDF3;
+    --text2: #AAB6C7;
+    --text3: #6E7A8E;
+    --line: #1C2739;
+    --line2: #263144;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── Scroll reveal ───────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.05s; }
+  .reveal-delay-2 { transition-delay: 0.12s; }
+  .reveal-delay-3 { transition-delay: 0.19s; }
+  .reveal-delay-4 { transition-delay: 0.26s; }
+  .reveal-delay-5 { transition-delay: 0.33s; }
+
+  /* ── Typography ──────────────────────────── */
+  h1, h2, h3 { font-weight: 800; letter-spacing: -0.4px; }
+  h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.08; }
+  h2 { font-size: clamp(26px, 4.5vw, 40px); line-height: 1.15; }
+  .kicker {
+    font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 18px; display: inline-block;
+    border: 1px solid rgba(14,216,107,0.18); border-radius: 99px;
+    padding: 5px 14px; background: var(--green-dim);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .kicker:hover { border-color: rgba(14,216,107,0.35); }
+  .sub {
+    font-size: 16px; color: var(--text2); max-width: 520px;
+    line-height: 1.75; margin-top: 10px;
+  }
+
+  /* ── Buttons ─────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; font-size: 13px; letter-spacing: 0.3px;
+    padding: 14px 26px; border-radius: 12px; text-decoration: none;
+    transition: all 0.3s var(--ease); font-family: inherit; border: none; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+    transform: translateX(-100%); transition: transform 0.5s var(--ease);
+  }
+  .btn:hover::after { transform: translateX(100%); }
+  .btn:active { transform: scale(0.96); }
+  .btn-primary { background: var(--green); color: var(--bg); }
+  .btn-primary:hover { box-shadow: 0 0 32px rgba(14,216,107,0.35); transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent; color: var(--text2);
+    border: 1px solid var(--line2); padding: 13px 25px;
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--text); transform: translateY(-2px); }
+  .btn svg { transition: transform 0.3s var(--ease); }
+  .btn:hover svg { transform: translateX(3px); }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 90px 0; position: relative; }
+
+  /* ── Nav ─────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    backdrop-filter: blur(16px); background: rgba(6,11,20,0.78);
+    border-bottom: 1px solid var(--line);
+    animation: slideDown 0.6s var(--ease-spring);
+  }
+  @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .nav-inner {
+    max-width: 1060px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between; height: 58px;
+  }
+  .nav-logo {
+    font-weight: 900; font-size: 19px; color: var(--text);
+    text-decoration: none; display: flex; align-items: center; gap: 9px;
+    letter-spacing: -0.2px; transition: transform 0.3s var(--ease);
+  }
+  .nav-logo:hover { transform: scale(1.04); }
+  .nav-logo img { transition: transform 0.4s var(--ease-spring); }
+  .nav-logo:hover img { transform: rotate(-8deg) scale(1.1); }
+  .nav-links { display: flex; gap: 30px; align-items: center; }
+  .nav-links a {
+    font-size: 13px; font-weight: 600; color: var(--text2);
+    text-decoration: none; transition: color 0.2s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+    height: 1.5px; background: var(--green); transform: scaleX(0);
+    transition: transform 0.3s var(--ease); border-radius: 1px;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  @media (max-width: 720px) { .nav-links { display: none; } }
+
+  /* ── Hero ────────────────────────────────── */
+  .hero {
+    min-height: 88vh; display: flex; align-items: center;
+    padding: 110px 0 70px; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; top: -280px; left: -180px;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,216,107,0.09), transparent 68%);
+    pointer-events: none; animation: floatSlow 8s ease-in-out infinite;
+  }
+  .hero-bg2 {
+    position: absolute; bottom: -100px; right: -140px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(77,143,247,0.07), transparent 65%);
+    pointer-events: none; animation: floatSlow 10s ease-in-out infinite reverse;
+  }
+  @keyframes floatSlow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-15px, 15px) scale(0.95); }
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 680px; }
+  .hero h1 { margin-bottom: 16px; }
+  .hero h1 b { color: var(--green); font-weight: 900; position: relative; }
+  .hero h1 b::after {
+    content: ''; position: absolute; bottom: 2px; left: -2px; right: -2px;
+    height: 3px; background: var(--green); opacity: 0.2; border-radius: 2px; z-index: -1;
+  }
+  .hero .sub { font-size: 17px; margin-bottom: 30px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+
+  /* ── Card grids ──────────────────────────── */
+  .cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px; margin-top: 42px;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 15px; padding: 26px 28px;
+    transition: all 0.35s var(--ease); position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+  .card:hover { border-color: var(--line2); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
+  .card:hover::before { transform: scaleX(1); }
+  .card h3 { font-size: 16px; margin-bottom: 6px; }
+  .card p { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+  .card .icon {
+    width: 42px; height: 42px; border-radius: 11px; display: flex;
+    align-items: center; justify-content: center; margin-bottom: 16px;
+    transition: transform 0.4s var(--ease-spring);
+  }
+  .card:hover .icon { transform: scale(1.1) rotate(-5deg); }
+  .card .icon svg { width: 22px; height: 22px; stroke-width: 1.8; }
+  .icon-green { background: rgba(14,216,107,0.08); }
+  .icon-green svg { color: var(--green); }
+  .icon-blue { background: rgba(77,143,247,0.08); }
+  .icon-blue svg { color: var(--blue); }
+  .icon-amber { background: rgba(244,165,38,0.08); }
+  .icon-amber svg { color: var(--amber); }
+  .icon-rose { background: rgba(242,83,123,0.07); }
+  .icon-rose svg { color: var(--rose); }
+  .icon-purple { background: rgba(139,92,246,0.08); }
+  .icon-purple svg { color: var(--purple); }
+  .icon-teal { background: rgba(20,184,166,0.08); }
+  .icon-teal svg { color: var(--teal); }
+
+  /* ── Testimonial ─────────────────────────── */
+  .testimonial {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 18px; padding: 38px 36px; margin-top: 48px;
+    position: relative; transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .testimonial:hover { border-color: var(--line2); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+  .testimonial::before {
+    content: '\201C'; position: absolute; top: -10px; left: 28px;
+    font-size: 72px; color: rgba(14,216,107,0.12); font-weight: 900;
+    font-family: Georgia, serif; line-height: 1;
+  }
+  .testimonial p {
+    font-size: 15px; color: var(--text2); line-height: 1.8;
+    font-style: italic; padding-left: 18px;
+  }
+  .testimonial .author {
+    margin-top: 16px; font-size: 13px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 10px; padding-left: 18px;
+  }
+  .author-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(14,216,107,0.4) } 50% { opacity:0.7; box-shadow:0 0 0 8px rgba(14,216,107,0) } }
+
+  /* ── Steps ───────────────────────────────── */
+  .steps { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 40px; }
+  .step {
+    flex: 1 1 200px; background: var(--surface2);
+    border: 1px solid var(--line); border-radius: 14px;
+    padding: 30px 26px; position: relative;
+    transition: all 0.35s var(--ease); overflow: hidden;
+  }
+  .step:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); border-color: var(--line2); }
+  .step::after {
+    content: ''; position: absolute; bottom: -20px; right: -20px;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(14,216,107,0.03); transition: transform 0.6s var(--ease);
+  }
+  .step:hover::after { transform: scale(3); }
+  .step .num {
+    font-size: 11px; font-weight: 900; color: var(--green);
+    letter-spacing: 1.5px; font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 14px; text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+  .step h3 { font-size: 16px; margin-bottom: 6px; position: relative; z-index: 1; }
+  .step p { font-size: 13px; color: var(--text2); line-height: 1.7; position: relative; z-index: 1; }
+
+  /* ── Pricing ─────────────────────────────── */
+  .price-box {
+    max-width: 420px; margin: 44px auto 0;
+    background: var(--surface); border: 2px solid var(--green);
+    border-radius: 20px; padding: 44px 36px; text-align: center;
+    box-shadow: 0 0 42px rgba(14,216,107,0.06);
+    transition: all 0.5s var(--ease); position: relative; overflow: hidden;
+  }
+  .price-box:hover { box-shadow: 0 0 64px rgba(14,216,107,0.14); transform: translateY(-4px); }
+  .price-box::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(14,216,107,0.04) 0%, transparent 60%);
+    animation: rotateSlow 20s linear infinite; pointer-events: none;
+  }
+  @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .price-box .amount {
+    font-size: 56px; font-weight: 900; letter-spacing: -2px;
+    margin: 14px 0 4px; position: relative; z-index: 1;
+    animation: none; transition: transform 0.3s var(--ease-spring);
+  }
+  .price-box:hover .amount { transform: scale(1.05); }
+  .price-box .note { font-size: 13px; color: var(--text3); margin-bottom: 22px; position: relative; z-index: 1; }
+  .price-box ul { list-style: none; text-align: left; margin: 0 auto 26px; max-width: 240px; position: relative; z-index: 1; }
+  .price-box li {
+    font-size: 13px; color: var(--text2); padding: 7px 0;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.2s;
+  }
+  .price-box li:hover { color: var(--text); }
+  .price-box li::before { content: ''; display: inline-block; width: 16px; height: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230ED86B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center; flex-shrink: 0; transition: transform 0.3s var(--ease-spring); }
+  .price-box li:hover::before { transform: scale(1.3); }
+
+  /* ── Contact cards ───────────────────────── */
+  .contact-row { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-top: 36px; }
+  .contact-card {
+    flex: 1; min-width: 220px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px; text-align: center;
+    transition: all 0.35s var(--ease);
+  }
+  .contact-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); border-color: var(--line2); }
+  .contact-card h3 { font-size: 15px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .contact-card p { font-size: 13px; color: var(--text2); }
+  .contact-card a { color: var(--green); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+  .contact-card a:hover { color: #3effa0; }
+  .contact-card svg { width: 18px; height: 18px; stroke-width: 2; color: var(--green); transition: transform 0.3s var(--ease-spring); }
+  .contact-card:hover svg { transform: scale(1.2); }
+
+  /* ── CTA ─────────────────────────────────── */
+  .cta-section {
+    text-align: center; padding: 80px 0 100px;
+    background: linear-gradient(180deg, transparent 0%, rgba(14,216,107,0.04) 50%, transparent 100%);
+  }
+
+  /* ── Footer ──────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--line); padding: 44px 0 28px;
+    background: var(--surface);
+  }
+  .footer-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; }
+  .footer-col h4 {
+    font-size: 10px; font-weight: 800; letter-spacing: 2px;
+    color: var(--text3); text-transform: uppercase; margin-bottom: 14px;
+  }
+  .footer-col a {
+    display: block; font-size: 13px; color: var(--text2);
+    text-decoration: none; padding: 4px 0; transition: all 0.2s;
+  }
+  .footer-col a:hover { color: var(--text); padding-left: 4px; }
+  .footer-line {
+    margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    font-size: 11px; color: var(--text3);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="/logo-64.png" alt="PolyVision" width="28" height="28" style="border-radius:7px;">
+      PolyVision
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="/open" class="btn btn-primary" style="padding:9px 18px;font-size:12px;">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg2"></div>
+  <div class="wrap">
+    <div class="hero-inner reveal visible">
+      <span class="kicker">Field Ops · Made Simple</span>
+      <h1 style="transition-delay:0.1s">Your team is out there.<br>You should <b>know where</b>.</h1>
+      <p class="sub reveal-delay-1">PolyVision gives you a live map of every field employee — where they are, where they've been, and whether they showed up. No spreadsheets, no phone calls, no guesswork.</p>
+      <div class="hero-actions reveal-delay-2">
+        <a href="/open" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          Get PolyVision — ₹999
+        </a>
+        <a href="#features" class="btn btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          See what it does
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <span class="kicker reveal">What's inside</span>
+    <h2 class="reveal">The tools you actually need</h2>
+    <p class="sub reveal reveal-delay-1">We didn't stuff it with features nobody asked for. Every tool here came from talking to business owners running field teams across India.</p>
+
+    <div class="cards">
+      <div class="card reveal reveal-delay-1">
+        <div class="icon icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>Live Map</h3>
+        <p>See everyone on one map. Who's online, who's idle, who's in the right neighborhood. Updates every few seconds — no refresh needed.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="icon icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+        <h3>Geofence Zones</h3>
+        <p>Draw boundaries on the map. Get an alert when someone enters or leaves a zone. Perfect for marking client sites and no-go areas.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="icon icon-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg></div>
+        <h3>Tasks & Assignments</h3>
+        <p>Send tasks to employees with location, priority, and deadline. They accept, work on it, and mark it done. You see it all in real time.</p>
+      </div>
+      <div class="card reveal reveal-delay-4">
+        <div class="icon icon-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <h3>One-tap Calling</h3>
+        <p>Voice call any employee right from the map. No phone numbers needed. Works on any internet connection — WiFi or mobile data.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="icon icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Clock-in / Clock-out</h3>
+        <p>Employees mark attendance with GPS proof. Breaks, overtime, daily summaries — all logged. Export anytime for payroll.</p>
+      </div>
+      <div class="card reveal reveal-delay-4">
+        <div class="icon icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Route Playback</h3>
+        <p>Replay anyone's movement over any date range. See exactly where they went, when, and for how long. Great for dispute resolution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 10px;">
+  <div class="wrap">
+    <div class="testimonial reveal">
+      <p>We run a 40-person field sales team across 6 cities. Before PolyVision, we were calling every rep twice a day to verify location. Now I just open the dashboard. Saved us 3 hours of management time daily.</p>
+      <div class="author"><span class="author-dot"></span> Rahul S. — Operations Head, Mumbai</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <span class="kicker reveal">Quick setup</span>
+    <h2 class="reveal">Four steps and you're live</h2>
+    <p class="sub reveal reveal-delay-1">No IT team. No server setup. Install, register, invite, track. Takes about 5 minutes.</p>
+
+    <div class="steps">
+      <div class="step reveal reveal-delay-1">
+        <div class="num">Step 01</div>
+        <h3>Install the app</h3>
+        <p>Download from our website or Play Store. Works on any Android phone running Android 7+.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="num">Step 02</div>
+        <h3>Create workspace</h3>
+        <p>Sign up with your email, name your company. You get an invite code to share with your team.</p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="num">Step 03</div>
+        <h3>Invite employees</h3>
+        <p>Share the code. Each employee signs up, enters the code, and they're connected to your workspace.</p>
+      </div>
+      <div class="step reveal reveal-delay-4">
+        <div class="num">Step 04</div>
+        <h3>Start tracking</h3>
+        <p>That's it. Employees appear on your live map. Set up geofences, assign tasks, and you're running.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="kicker reveal">Trust</span>
+    <h2 class="reveal">Your data stays yours</h2>
+    <p class="sub reveal reveal-delay-1">We take security seriously because we're handling people's location. Here's what protects your data.</p>
+    <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 32px;">
+      <div class="card reveal reveal-delay-1">
+        <div class="icon icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <h3>Firebase Auth</h3>
+        <p>Every login is verified by Google's authentication system. No weak passwords, no fake accounts.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="icon icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Encrypted everywhere</h3>
+        <p>All location data is encrypted in transit and at rest. Your employees' whereabouts are never exposed.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="icon icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h3>Role-based access</h3>
+        <p>Employees see only their own data. Admins see their team. Nobody sees what they shouldn't.</p>
+      </div>
+      <div class="card reveal reveal-delay-4">
+        <div class="icon icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Google Cloud</h3>
+        <p>Hosted on Google's infrastructure. Automatic backups, 99.9% uptime, enterprise-grade physical security.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="padding-top: 20px;">
+  <div class="wrap" style="text-align:center">
+    <span class="kicker reveal">Pricing</span>
+    <h2 class="reveal">One payment.<br>That's it.</h2>
+    <p class="sub reveal reveal-delay-1" style="margin:10px auto 0">No per-user fees. No monthly bills. No "contact us for enterprise pricing." Just ₹999 once.</p>
+
+    <div class="price-box reveal reveal-delay-2">
+      <div style="font-size:12px;font-weight:700;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;">Lifetime Access</div>
+      <div class="amount">₹999</div>
+      <div class="note">one-time payment</div>
+      <ul>
+        <li>Unlimited employees</li>
+        <li>Live GPS tracking</li>
+        <li>Geofence zones</li>
+        <li>Task management</li>
+        <li>Voice calling</li>
+        <li>Attendance & timesheets</li>
+        <li>Route history</li>
+        <li>Free updates forever</li>
+      </ul>
+      <a href="/open" class="btn btn-primary" style="justify-content:center;font-size:13px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Buy PolyVision — ₹999
+      </a>
+      <p style="font-size:11px;color:var(--text3);margin-top:14px;">Secure payment · Instant activation · No recurring charges</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <div class="wrap">
+    <h2 class="reveal">Stop guessing where your team is.</h2>
+    <p class="reveal reveal-delay-1" style="color:var(--text2);font-size:16px;max-width:460px;margin:14px auto 26px;">Tracking 10 employees or 100. Same price. Same features.</p>
+    <a href="/open" class="btn btn-primary reveal reveal-delay-2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      Get Started — ₹999
+    </a>
+  </div>
+</div>
+
+<section id="contact" style="padding-top:20px;">
+  <div class="wrap">
+    <span class="kicker reveal">Get in touch</span>
+    <h2 class="reveal">We actually read emails</h2>
+    <p class="sub reveal reveal-delay-1">Questions, setup help, feature requests — we respond within a few hours.</p>
+    <div class="contact-row">
+      <div class="contact-card reveal reveal-delay-1">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 14 2 4"/></svg> Email</h3>
+        <p><a href="mailto:hello@polyvision.shiot.in">hello@polyvision.shiot.in</a></p>
+      </div>
+      <div class="contact-card reveal reveal-delay-2">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg> WhatsApp</h3>
+        <p><a href="https://wa.me/917385951732">+91 73859 51732</a></p>
+      </div>
+      <div class="contact-card reveal reveal-delay-3">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram</h3>
+        <p><a href="https://instagram.com/polyvision_shiot">@polyvision_shiot</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms & Conditions</a>
+      </div>
+      <div class="footer-col" style="max-width:240px">
+        <h4>PolyVision</h4>
+        <p style="font-size:13px;color:var(--text2);line-height:1.8;">Made for Indian businesses managing field teams. Simple pricing, no gimmicks.</p>
+      </div>
+    </div>
+    <div class="footer-line">
+      <span>&copy; 2025 PolyVision. All rights reserved.</span>
+      <span>polyvision.shiot.in</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Hero is immediately visible
+document.querySelector('.hero .reveal')?.classList.add('visible');
+</script>
+
+</body>
+</html>

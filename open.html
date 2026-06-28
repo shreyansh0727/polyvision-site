@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PolyVision — Field Team Tracking</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #060B14; color: #E8EDF3;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; text-align: center;
+    padding: 20px;
+  }
+  .card {
+    max-width: 440px; width: 100%;
+    background: rgba(15, 22, 36, 0.8);
+    border: 1px solid rgba(14, 216, 107, 0.12);
+    border-radius: 24px; padding: 40px 28px;
+    backdrop-filter: blur(20px);
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(14, 216, 107, 0.08);
+    border: 1px solid rgba(14, 216, 107, 0.2);
+    padding: 5px 14px; border-radius: 999px;
+    font-size: 10px; font-weight: 700; color: #0ED86B;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 20px; font-family: 'JetBrains Mono', monospace;
+  }
+  .dot { width: 7px; height: 7px; background: #0ED86B; border-radius: 50%; box-shadow: 0 0 10px #0ED86B; }
+  h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .sub { color: #96A2B3; font-size: 13px; line-height: 1.6; margin-bottom: 24px; }
+  .features {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .feat {
+    background: rgba(15, 22, 36, 0.6);
+    border: 1px solid rgba(30, 43, 62, 0.6);
+    border-radius: 12px; padding: 14px 12px;
+    font-size: 11px; color: #96A2B3; line-height: 1.5;
+  }
+  .feat strong { display: block; color: #E8EDF3; font-size: 12px; margin-bottom: 3px; }
+  .feat span { color: #0ED86B; }
+
+  .actions { display: flex; flex-direction: column; gap: 10px; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 700; font-size: 14px; padding: 14px;
+    border-radius: 14px; text-decoration: none; cursor: pointer;
+    transition: all 0.2s; border: none; width: 100%;
+  }
+  .btn-primary { background: #0ED86B; color: #060B14; }
+  .btn-primary:hover { box-shadow: 0 0 28px rgba(14,216,107,0.3); }
+  .btn-outline { background: transparent; color: #0ED86B; border: 1.5px solid rgba(14,216,107,0.25); }
+  .btn-outline:hover { background: rgba(14,216,107,0.06); }
+  .btn-dark { background: rgba(255,255,255,0.05); color: #E8EDF3; border: 1px solid rgba(255,255,255,0.08); font-size: 13px; }
+  .btn-dark:hover { background: rgba(255,255,255,0.1); }
+  .row { display: flex; gap: 10px; }
+  .row .btn { flex: 1; }
+
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+  .divider span { font-size: 10px; color: #4A5568; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+
+  .footer { font-size: 10px; color: #4A5568; margin-top: 18px; font-family: 'JetBrains Mono', monospace; }
+  .footer a { color: #0ED86B; text-decoration: none; }
+  .pricing { margin-bottom: 20px; font-size: 13px; color: #96A2B3; }
+  .pricing strong { color: #0ED86B; font-size: 18px; }
+
+  @media (max-width: 400px) {
+    .card { padding: 28px 18px; }
+    .features { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="badge"><div class="dot"></div>POLYVISION · FIELD OPS</div>
+  <h1>Track your team.<br>Anywhere, anytime.</h1>
+  <p class="sub">
+    Complete field workforce management — GPS tracking, geofence zones,
+    tasks, voice calling, attendance & reports. All in one app.
+  </p>
+
+  <div class="features">
+    <div class="feat"><strong>📍 Live GPS</strong> Real-time map tracking</div>
+    <div class="feat"><strong>🌐 Geofence</strong> Zone entry/exit alerts</div>
+    <div class="feat"><strong>✅ Tasks</strong> Assign & track progress</div>
+    <div class="feat"><strong>📞 Voice Calls</strong> One-tap from map</div>
+  </div>
+
+  <p class="pricing">
+    <strong>₹999</strong> one-time · lifetime · unlimited employees
+  </p>
+
+  <div class="actions">
+    <div class="row">
+      <a class="btn btn-primary" href="#" id="btn-register">
+        ✨ Register
+      </a>
+      <a class="btn btn-outline" href="#" id="btn-login">
+        Sign In
+      </a>
+    </div>
+    <a class="btn btn-dark" href="#" id="btn-download">
+      ⬇ Download Android App (APK)
+    </a>
+  </div>
+
+  <div class="divider"><span>or</span></div>
+
+  <p style="font-size:12px;color:#6E7A8E;margin-bottom:8px;">Already have the app?</p>
+  <a class="btn btn-outline" href="#" id="btn-open" style="font-size:12px;">
+    Open PolyVision App
+  </a>
+
+  <div class="footer">
+    <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · 
+    WhatsApp <a href="https://wa.me/917385951732">+91 73859 51732</a>
+  </div>
+</div>
+
+<script>
+  var ua = navigator.userAgent.toLowerCase();
+  var isAndroid = ua.indexOf('android') > -1;
+  var pkg = 'com.shiotvstrack';
+  var apkUrl = 'https://github.com/shreyansh0727/polyvision/releases/latest/download/polyvision-internal-2.1.7-internal.apk';
+  // Also try the releases page as fallback
+  var releasesUrl = 'https://github.com/shreyansh0727/polyvision/releases/latest';
+
+  function downloadApk() {
+    // Direct download
+    var a = document.createElement('a');
+    a.href = apkUrl;
+    a.download = 'PolyVision.apk';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    // Fallback: open releases page
+    setTimeout(function() {
+      window.open(releasesUrl, '_blank');
+    }, 1500);
+  }
+
+  function openApp(screen) {
+    var path = screen ? '/open?screen=' + screen : '/open';
+    if (isAndroid) {
+      window.location = 'intent://polyvision.shiot.in' + path + '#Intent;scheme=https;package=' + pkg + ';end';
+    } else {
+      window.location = 'https://polyvision.shiot.in' + path;
+    }
+  }
+
+  // Register button
+  document.getElementById('btn-register').addEventListener('click', function(e) {
+    e.preventDefault();
+    openApp('register');
+  });
+
+  // Login button
+  document.getElementById('btn-login').addEventListener('click', function(e) {
+    e.preventDefault();
+    openApp('login');
+  });
+
+  // Open app button
+  document.getElementById('btn-open').addEventListener('click', function(e) {
+    e.preventDefault();
+    openApp();
+  });
+
+  // Download button
+  document.getElementById('btn-download').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.open('https://github.com/shreyansh0727/polyvision/releases/latest', '_blank');
+  });
+
+  // Auto-try opening app on load
+  setTimeout(function() {
+    if (isAndroid) {
+      var iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'intent://polyvision.shiot.in/open#Intent;scheme=https;package=' + pkg + ';end';
+      document.body.appendChild(iframe);
+      setTimeout(function() { document.body.removeChild(iframe); }, 2000);
+    }
+  }, 300);
+</script>
+
+</body>
+</html>

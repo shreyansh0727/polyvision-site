@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — PolyVision</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/logo-32.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  :root { --bg:#060B14; --surface:#0E1525; --green:#0ED86B; --text:#E8EDF3; --text2:#AAB6C7; --text3:#6E7A8E; --line:#1C2739; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.75; }
+  header { border-bottom:1px solid var(--line); padding:15px 24px; backdrop-filter:blur(16px); background:rgba(6,11,20,0.8); position:sticky; top:0; z-index:10; }
+  header a { color:var(--green); font-size:18px; font-weight:900; text-decoration:none; display:flex; align-items:center; gap:8px; }
+  header a svg { width:20px; height:20px; stroke-width:2.5; }
+  main { max-width:780px; margin:0 auto; padding:48px 24px 70px; }
+  h1 { font-size:34px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; }
+  .date { font-size:12px; color:var(--text3); margin-bottom:30px; }
+  h2 { font-size:20px; font-weight:800; margin:32px 0 10px; color:var(--green); }
+  p, li { font-size:15px; color:var(--text2); margin-bottom:14px; }
+  ul { margin:0 0 16px 22px; }
+  li { margin-bottom:6px; }
+  a { color:var(--green); }
+  footer { border-top:1px solid var(--line); padding:28px 24px; text-align:center; font-size:12px; color:var(--text3); }
+</style>
+</head>
+<body>
+<header><a href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> PolyVision</a></header>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="date">Last updated: June 17, 2025</p>
+  <p>We take your privacy seriously. This policy explains what data PolyVision collects, why we collect it, and what we do with it.</p>
+
+  <h2>1. What we collect</h2>
+  <p><strong>You give us:</strong> Email, company name, and team member details when you create a workspace.</p>
+  <p><strong>We collect automatically:</strong> GPS location during active tracking, device model, app version, and FCM token for notifications.</p>
+
+  <h2>2. Why we collect it</h2>
+  <ul>
+    <li>To show employee locations on the admin map</li>
+    <li>To trigger geofence alerts when employees enter or leave zones</li>
+    <li>To process task assignments and status updates</li>
+    <li>To enable voice calling between admin and field staff</li>
+    <li>To generate attendance reports</li>
+    <li>To send push notifications</li>
+  </ul>
+
+  <h2>3. We don't sell your data</h2>
+  <p>We do not sell, rent, or trade your information. Period. The only people who see employee location data are the admins in the same workspace.</p>
+
+  <h2>4. How we protect it</h2>
+  <ul>
+    <li>HTTPS/TLS encryption for all data in transit</li>
+    <li>Firebase Authentication on every API call</li>
+    <li>Google Cloud SQL with encryption at rest</li>
+    <li>Role-based access: employees see only their own data</li>
+  </ul>
+
+  <h2>5. Data retention</h2>
+  <p>Raw GPS points are kept for 90 days, then automatically deleted. Account data is kept while your workspace is active. You can request deletion anytime at <a href="mailto:privacy@polyvision.shiot.in">privacy@polyvision.shiot.in</a>.</p>
+
+  <h2>6. Your rights</h2>
+  <p>You can access, correct, export, or delete your data. Just email us. If an employee withdraws consent for tracking, their location stops being collected immediately.</p>
+
+  <h2>7. Contact</h2>
+  <p>Questions? <a href="mailto:privacy@polyvision.shiot.in">privacy@polyvision.shiot.in</a></p>
+</main>
+<footer>© 2025 PolyVision</footer>
+</body>
+</html>
