@@ -336,66 +336,81 @@
   .contact-card svg { width: 18px; height: 18px; stroke-width: 2; color: var(--green); transition: transform 0.3s var(--ease-spring); }
   .contact-card:hover svg { transform: scale(1.2); }
 
-  /* ── App Gallery ──────────────────────────── */
-  .gallery-section {
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    background: rgba(14,216,107,0.02);
-    padding: 60px 0;
+  /* ── App Gallery (Sticky Scroll) ──────────── */
+  .gallery-scroll-section {
+    position: relative;
+    height: 450vh;
   }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px; max-width: 1100px; margin: 0 auto;
-    padding: 0 20px;
+  .gallery-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, rgba(14,216,107,0.03) 0%, transparent 70%);
   }
-  .gallery-card {
-    background: rgba(14, 20, 32, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--line);
-    border-radius: 20px; overflow: hidden;
-    transition: all 0.4s var(--ease);
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(60px) scale(0.94);
-    filter: blur(8px);
+  .gallery-frame {
+    position: relative;
+    width: min(380px, 88vw);
+    height: min(680px, 84vh);
+  }
+  .gallery-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     will-change: transform, opacity, filter;
   }
-  .gallery-card.visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
+  .gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 24px;
+    box-shadow: 0 0 0 2px rgba(14,216,107,0.12), 0 8px 32px rgba(0,0,0,0.4);
+    background: rgba(14,20,32,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
-  .gallery-card:nth-child(1).visible { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s; }
-  .gallery-card:nth-child(2).visible { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s; }
-  .gallery-card:nth-child(3).visible { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s; }
-  .gallery-card:nth-child(4).visible { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s; }
-  .gallery-card:nth-child(5).visible { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s; }
-  .gallery-card:nth-child(6).visible { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.55s; }
-  .gallery-card:hover {
-    transform: translateY(-6px) scale(1.02) !important;
-    border-color: rgba(14,216,107,0.4);
-    box-shadow: 0 12px 40px rgba(14,216,107,0.1);
-  }
-  .gallery-card img {
-    width: 100%; height: auto; display: block;
-    border-bottom: 1px solid var(--line);
-  }
-  .gallery-label {
-    padding: 14px 16px;
-    font-size: 11px; font-weight: 700;
-    color: var(--text2); text-transform: uppercase;
+  .gallery-slide .gallery-label {
+    position: absolute;
+    bottom: -44px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
     letter-spacing: 1.5px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
+    text-align: center;
   }
-  @media (max-width: 560px) {
-    .gallery-grid { grid-template-columns: 1fr; }
-    .gallery-card {
-      transform: translateY(40px) scale(0.96);
-    }
+  .gallery-nav {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+  .gallery-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.4s var(--ease);
+    cursor: pointer;
+  }
+  .gallery-dot.active {
+    background: var(--green);
+    box-shadow: 0 0 12px rgba(14,216,107,0.5);
+    width: 24px;
+    border-radius: 4px;
   }
 
+  /* ── CTA ─────────────────────────────────── */
   /* ── CTA ─────────────────────────────────── */
   .cta-section {
     text-align: center; padding: 80px 0 100px;
@@ -577,42 +592,15 @@
   </div>
 </section>
 
-<section class="gallery-section">
-  <div class="wrap" style="text-align:center">
-    <span class="kicker reveal">App Screenshots</span>
-    <h2 class="reveal">See it in action</h2>
-    <p class="sub reveal reveal-delay-1">Every screen, every feature, built for speed on the field.</p>
-
-    <div class="gallery-grid">
-      <div class="gallery-card">
-        <img src="/screenshots/9e8892cc-d8e3-4122-9f98-207449e6e552.png" alt="Task Screen" loading="lazy" />
-        <div class="gallery-label">Task Screen</div>
-      </div>
-      <div class="gallery-card">
-        <img src="/screenshots/112160d4-9853-4365-b7ee-a6302e130c81.png" alt="Employee Tracking Screen" loading="lazy" />
-        <div class="gallery-label">Employee Tracking Screen</div>
-      </div>
-      <div class="gallery-card">
-        <img src="/screenshots/6d974acc-99d1-4b3c-b88b-48e1b5075696.png" alt="Employee Profile" loading="lazy" />
-        <div class="gallery-label">Employee Profile</div>
-      </div>
-      <div class="gallery-card">
-        <img src="/screenshots/8c81e9ac-a6a8-48e3-9040-c99c9ee33964.png" alt="Geofence Management" loading="lazy" />
-        <div class="gallery-label">Geofence Management</div>
-      </div>
-      <div class="gallery-card">
-        <img src="/screenshots/31cffac3-717e-46b8-af80-b628f4c7265e.png" alt="Send Notification" loading="lazy" />
-        <div class="gallery-label">Send Notification</div>
-      </div>
-      <div class="gallery-card">
-        <img src="/screenshots/4901dc51-abf1-488d-8d90-ee4f8d53da4a.png" alt="LoginScreen" loading="lazy" />
-        <div class="gallery-label">LoginScreen</div>
-      </div>
-    </div>
+<section class="gallery-scroll-section">
+  <div class="gallery-sticky" id="gallerySticky">
+    <div class="gallery-frame" id="galleryFrame"></div>
+    <div class="gallery-nav" id="galleryNav"></div>
   </div>
 </section>
 
 <section id="pricing" style="padding-top: 20px;">
+
   <div class="wrap" style="text-align:center">
     <span class="kicker reveal">Pricing</span>
     <h2 class="reveal">Simple, transparent pricing.</h2>
@@ -751,8 +739,90 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Gallery cards — individual scroll-in with stagger
-document.querySelectorAll('.gallery-card').forEach(el => observer.observe(el));
+// ── Sticky Scroll Gallery ────────────────────
+const SLIDES = [        { label: "Task Screen", img: "/screenshots/9e8892cc-d8e3-4122-9f98-207449e6e552.png" },
+        { label: "Employee Tracking Screen", img: "/screenshots/112160d4-9853-4365-b7ee-a6302e130c81.png" },
+        { label: "Employee Profile", img: "/screenshots/6d974acc-99d1-4b3c-b88b-48e1b5075696.png" },
+        { label: "Geofence Management", img: "/screenshots/8c81e9ac-a6a8-48e3-9040-c99c9ee33964.png" },
+        { label: "Send Notification", img: "/screenshots/31cffac3-717e-46b8-af80-b628f4c7265e.png" },
+        { label: "LoginScreen", img: "/screenshots/4901dc51-abf1-488d-8d90-ee4f8d53da4a.png" },
+      ];
+const SECTION2 = document.getElementById('gallerySticky');
+const FRAME = document.getElementById('galleryFrame');
+const NAV = document.getElementById('galleryNav');
+let slidesEls2 = [];
+
+SLIDES.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'gallery-slide';
+  el.innerHTML = '<img src="' + s.img + '" alt="' + s.label + '" /><div class="gallery-label">' + s.label + '</div>';
+  FRAME.appendChild(el);
+  slidesEls2.push(el);
+  
+  const dot = document.createElement('div');
+  dot.className = 'gallery-dot';
+  (function(idx) {
+    dot.addEventListener('click', function() {
+      const section = SECTION2.parentElement;
+      const top = section.offsetTop + (idx * section.offsetHeight / (SLIDES.length - 1));
+      window.scrollTo({ top: top - 100, behavior: 'smooth' });
+    });
+  })(i);
+  NAV.appendChild(dot);
+});
+
+const dots2 = NAV.querySelectorAll('.gallery-dot');
+let ticking2 = false;
+
+function updateGallery() {
+  const section = SECTION2.parentElement;
+  const rect = section.getBoundingClientRect();
+  const sectionH = section.offsetHeight - window.innerHeight;
+  const scrolled = -rect.top;
+  const progress = Math.max(0, Math.min(1, scrolled / sectionH));
+  const totalSlides = SLIDES.length;
+  const rawIdx = progress * (totalSlides - 1);
+  const idx = Math.floor(rawIdx);
+  const frac = rawIdx - idx;
+
+  slidesEls2.forEach((el, i) => {
+    if (i === idx) {
+      const s = 1 - frac * 0.15;
+      const o = 1 - frac * 0.5;
+      const b = frac * 4;
+      el.style.transform = 'scale(' + s + ')';
+      el.style.opacity = o;
+      el.style.filter = 'blur(' + b + 'px)';
+      el.style.zIndex = 10;
+    } else if (i === idx + 1) {
+      const s = 0.85 + frac * 0.15;
+      const o = 0.5 + frac * 0.5;
+      const b = 4 - frac * 4;
+      el.style.transform = 'scale(' + s + ')';
+      el.style.opacity = o;
+      el.style.filter = 'blur(' + b + 'px)';
+      el.style.zIndex = 9;
+    } else {
+      el.style.opacity = '0';
+      el.style.zIndex = '0';
+    }
+  });
+
+  dots2.forEach((d, i) => {
+    d.classList.toggle('active', i === idx || (i === idx + 1 && frac > 0.5));
+  });
+
+  ticking2 = false;
+}
+
+window.addEventListener('scroll', function() {
+  if (!ticking2) {
+    requestAnimationFrame(updateGallery);
+    ticking2 = true;
+  }
+}, { passive: true });
+
+updateGallery();
 
 // Hero is immediately visible
 document.querySelector('.hero .reveal')?.classList.add('visible');
