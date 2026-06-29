@@ -107,8 +107,8 @@
         Sign In
       </a>
     </div>
-    <a class="btn btn-dark" href="#" id="btn-download">
-      ⬇ Download Android App (APK)
+    <a class="btn btn-dark" href="https://play.google.com/store/apps/details?id=com.shiotvstrack" id="btn-download">
+      ⬇ Get on Google Play
     </a>
   </div>
 
@@ -129,23 +129,7 @@
   var ua = navigator.userAgent.toLowerCase();
   var isAndroid = ua.indexOf('android') > -1;
   var pkg = 'com.shiotvstrack';
-  var apkUrl = 'https://github.com/shreyansh0727/polyvision/releases/latest/download/polyvision-internal-latest.apk';
-  // Also try the releases page as fallback
-  var releasesUrl = 'https://github.com/shreyansh0727/polyvision/releases/latest';
-
-  function downloadApk() {
-    // Direct download
-    var a = document.createElement('a');
-    a.href = apkUrl;
-    a.download = 'PolyVision.apk';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    // Fallback: open releases page
-    setTimeout(function() {
-      window.open(releasesUrl, '_blank');
-    }, 1500);
-  }
+  var playStoreUrl = 'https://play.google.com/store/apps/details?id=com.shiotvstrack';
 
   function openApp(screen) {
     var path = screen ? '/open?screen=' + screen : '/open';
