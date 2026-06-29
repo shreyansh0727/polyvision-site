@@ -133,11 +133,8 @@
 
   function openApp(screen) {
     var path = screen ? '/open?screen=' + screen : '/open';
-    if (isAndroid) {
-      window.location = 'intent://polyvision.shiot.in' + path + '#Intent;scheme=https;package=' + pkg + ';end';
-    } else {
-      window.location = 'https://polyvision.shiot.in' + path;
-    }
+    // Use standard HTTPS deep link — works with Android App Links (autoVerify)
+    window.location = 'https://polyvision.shiot.in' + path;
   }
 
   // Register button
@@ -160,15 +157,9 @@
 
   });
 
-  // Auto-try opening app on load
+  // Auto-try opening app on load via verified deep link
   setTimeout(function() {
-    if (isAndroid) {
-      var iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = 'intent://polyvision.shiot.in/open#Intent;scheme=https;package=' + pkg + ';end';
-      document.body.appendChild(iframe);
-      setTimeout(function() { document.body.removeChild(iframe); }, 2000);
-    }
+    window.location = 'https://polyvision.shiot.in/open';
   }, 300);
 </script>
 
