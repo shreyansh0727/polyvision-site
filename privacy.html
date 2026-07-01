@@ -28,43 +28,44 @@
 <header><a href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> PolyVision</a></header>
 <main>
   <h1>Privacy Policy</h1>
-  <p class="date">Last updated: June 17, 2025</p>
+  <p class="date">Last updated: July 1, 2026</p>
   <p>We take your privacy seriously. This policy explains what data PolyVision collects, why we collect it, and what we do with it.</p>
 
   <h2>1. What we collect</h2>
-  <p><strong>You give us:</strong> Email, company name, and team member details when you create a workspace.</p>
-  <p><strong>We collect automatically:</strong> GPS location during active tracking, device model, app version, and FCM token for notifications.</p>
+  <p><strong>You give us:</strong> Email, workspace details, team member profiles, and billing information (processed securely by Razorpay).</p>
+  <p><strong>We collect automatically:</strong> GPS location during active foreground and background tracking, visit photos captured via the app's camera, voice call session metadata, device model, app version, AI support bot chat logs, and FCM tokens for push notifications.</p>
 
   <h2>2. Why we collect it</h2>
   <ul>
-    <li>To show employee locations on the admin map</li>
-    <li>To trigger geofence alerts when employees enter or leave zones</li>
-    <li>To process task assignments and status updates</li>
-    <li>To enable voice calling between admin and field staff</li>
-    <li>To generate attendance reports</li>
-    <li>To send push notifications</li>
+    <li>To show real-time employee locations on the admin map and generate historical routes.</li>
+    <li>To trigger geofence alerts when employees enter or leave designated zones.</li>
+    <li>To securely log and store field visit photos with accurate GPS coordinates.</li>
+    <li>To enable in-app voice calling between admins and field staff.</li>
+    <li>To provide contextual troubleshooting and navigation via our AI Support Bot.</li>
+    <li>To generate attendance and payroll reports.</li>
   </ul>
 
-  <h2>3. We don't sell your data</h2>
-  <p>We do not sell, rent, or trade your information. Period. The only people who see employee location data are the admins in the same workspace.</p>
+  <h2>3. Third-party processors & Data sharing</h2>
+  <p>We do not sell, rent, or trade your information. Period. We do, however, use trusted infrastructure partners to run PolyVision. These include <strong>Supabase</strong> (database hosting), <strong>Google Cloud Storage</strong> (secure photo hosting), <strong>Agora</strong> (voice call routing), <strong>Razorpay</strong> (secure payment processing), and <strong>OpenRouter / OpenAI</strong> (which processes your queries to our AI Support Bot). These partners are strictly bound to process your data only for providing their specific services.</p>
 
   <h2>4. How we protect it</h2>
   <ul>
-    <li>HTTPS/TLS encryption for all data in transit</li>
-    <li>Firebase Authentication on every API call</li>
-    <li>Google Cloud SQL with encryption at rest</li>
-    <li>Role-based access: employees see only their own data</li>
+    <li>HTTPS/TLS encryption for all data in transit.</li>
+    <li>Firebase Authentication and strict JWT token validation on every API call.</li>
+    <li>Supabase PostgreSQL databases with encryption at rest and strict multi-tenant isolation (employees can never see data from other workspaces).</li>
+    <li>Time-limited, signed URLs for accessing sensitive visit photos.</li>
+    <li>Enforced single-device login to prevent unauthorized account access.</li>
   </ul>
 
   <h2>5. Data retention</h2>
-  <p>Raw GPS points are kept for 90 days, then automatically deleted. Account data is kept while your workspace is active. You can request deletion anytime at <a href="mailto:privacy@polyvision.shiot.in">privacy@polyvision.shiot.in</a>.</p>
+  <p>Raw GPS location events and visit photos are retained based on your workspace's active subscription tier. Account data is kept while your workspace is active. You can request full data deletion at any time by contacting us.</p>
 
-  <h2>6. Your rights</h2>
-  <p>You can access, correct, export, or delete your data. Just email us. If an employee withdraws consent for tracking, their location stops being collected immediately.</p>
+  <h2>6. Your rights & Consent</h2>
+  <p>You can access, correct, export, or delete your data. Employees are presented with explicit system dialogues to grant Location, Camera, and Microphone permissions. If an employee withdraws consent or disables tracking, location and media collection stops immediately.</p>
 
   <h2>7. Contact</h2>
-  <p>Questions? <a href="mailto:privacy@polyvision.shiot.in">privacy@polyvision.shiot.in</a></p>
+  <p>Questions about your data? Email us at <a href="mailto:privacy@polyvision.shiot.in">privacy@polyvision.shiot.in</a>.</p>
 </main>
-<footer>© 2025 PolyVision</footer>
+<footer>© 2026 PolyVision</footer>
 </body>
 </html>
