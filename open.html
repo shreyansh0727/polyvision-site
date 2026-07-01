@@ -5,64 +5,343 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PolyVision — Field Team Tracking</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #060B14; color: #E8EDF3; display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 20px; }
-  .card { max-width: 440px; width: 100%; background: rgba(15, 22, 36, 0.8); border: 1px solid rgba(14, 216, 107, 0.12); border-radius: 24px; padding: 40px 28px; backdrop-filter: blur(20px); }
-  .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(14, 216, 107, 0.08); border: 1px solid rgba(14, 216, 107, 0.2); padding: 5px 14px; border-radius: 999px; font-size: 10px; font-weight: 700; color: #0ED86B; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
-  .dot { width: 7px; height: 7px; background: #0ED86B; border-radius: 50%; box-shadow: 0 0 10px #0ED86B; }
-  h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
-  .sub { color: #96A2B3; font-size: 13px; line-height: 1.6; margin-bottom: 24px; }
-  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
-  .feat { background: rgba(15, 22, 36, 0.6); border: 1px solid rgba(30, 43, 62, 0.6); border-radius: 12px; padding: 14px 12px; font-size: 11px; color: #96A2B3; line-height: 1.5; }
-  .feat strong { display: block; color: #E8EDF3; font-size: 12px; margin-bottom: 3px; }
-  .actions { display: flex; flex-direction: column; gap: 10px; }
-  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 14px; padding: 14px; border-radius: 14px; text-decoration: none; cursor: pointer; transition: all 0.2s; border: none; width: 100%; }
-  .btn-primary { background: #0ED86B; color: #060B14; }
-  .btn-outline { background: transparent; color: #0ED86B; border: 1.5px solid rgba(14,216,107,0.25); }
-  .btn-dark { background: rgba(255,255,255,0.05); color: #E8EDF3; border: 1px solid rgba(255,255,255,0.08); font-size: 13px; }
-  .row { display: flex; gap: 10px; } .row .btn { flex: 1; }
-  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
-  .divider span { font-size: 10px; color: #4A5568; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
-  .footer { font-size: 10px; color: #4A5568; margin-top: 18px; font-family: 'JetBrains Mono', monospace; }
-  .footer a { color: #0ED86B; text-decoration: none; }
-  .pricing { margin-bottom: 20px; font-size: 13px; color: #96A2B3; }
-  .pricing strong { color: #0ED86B; font-size: 18px; }
-  @media (max-width: 400px) { .card { padding: 28px 18px; } .features { grid-template-columns: 1fr; } }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  :root {
+    --bg: #060B14;
+    --surface: rgba(15, 22, 36, 0.75);
+    --surface-hover: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.08);
+    --green: #0ED86B;
+    --green-glow: rgba(14, 216, 107, 0.25);
+    --text-primary: #E8EDF3;
+    --text-secondary: #96A2B3;
+    --text-tertiary: #6E7A8E;
+  }
+
+  * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+  }
+
+  body { 
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+    background: var(--bg); 
+    background-image: radial-gradient(circle at 50% 0%, #112A20 0%, #060B14 70%);
+    color: var(--text-primary); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    min-height: 100vh; 
+    text-align: center; 
+    padding: 24px; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card { 
+    position: relative;
+    max-width: 480px; 
+    width: 100%; 
+    background: var(--surface); 
+    border: 1px solid rgba(14, 216, 107, 0.15); 
+    border-radius: 28px; 
+    padding: 48px 32px; 
+    backdrop-filter: blur(24px); 
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    z-index: 1;
+  }
+
+  /* Subtle card background glow */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(135deg, rgba(14,216,107,0.2) 0%, rgba(0,0,0,0) 40%);
+    border-radius: 30px;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.5;
+  }
+
+  .badge { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    background: rgba(14, 216, 107, 0.05); 
+    border: 1px solid rgba(14, 216, 107, 0.15); 
+    padding: 6px 16px; 
+    border-radius: 999px; 
+    font-size: 11px; 
+    font-weight: 700; 
+    color: var(--green); 
+    letter-spacing: 1.5px; 
+    text-transform: uppercase; 
+    margin-bottom: 24px; 
+    font-family: 'JetBrains Mono', monospace; 
+  }
+
+  .dot { 
+    width: 6px; 
+    height: 6px; 
+    background: var(--green); 
+    border-radius: 50%; 
+    box-shadow: 0 0 10px var(--green); 
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(14, 216, 107, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(14, 216, 107, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(14, 216, 107, 0); }
+  }
+
+  h1 { 
+    font-size: 32px; 
+    font-weight: 800; 
+    letter-spacing: -0.03em; 
+    line-height: 1.15;
+    margin-bottom: 12px; 
+  }
+
+  .sub { 
+    color: var(--text-secondary); 
+    font-size: 14px; 
+    line-height: 1.6; 
+    margin-bottom: 32px; 
+  }
+
+  .features { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+    margin-bottom: 32px; 
+  }
+
+  .feat { 
+    background: rgba(255, 255, 255, 0.02); 
+    border: 1px solid var(--border); 
+    border-radius: 16px; 
+    padding: 16px; 
+    text-align: left;
+    transition: all 0.2s ease;
+  }
+
+  .feat:hover {
+    background: var(--surface-hover);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .feat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .feat-header svg {
+    color: var(--green);
+    width: 16px;
+    height: 16px;
+  }
+
+  .feat strong { 
+    color: var(--text-primary); 
+    font-size: 13px; 
+    font-weight: 600;
+  }
+
+  .feat span {
+    display: block;
+    font-size: 12px; 
+    color: var(--text-secondary); 
+    line-height: 1.4;
+  }
+
+  .pricing-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    width: 100%;
+  }
+
+  .pricing-pill strong {
+    color: var(--text-primary);
+    margin: 0 4px;
+    font-weight: 600;
+  }
+  
+  .pricing-pill .highlight {
+    color: var(--green);
+  }
+
+  .actions { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+  }
+
+  .btn { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    font-weight: 600; 
+    font-size: 14px; 
+    padding: 14px; 
+    border-radius: 14px; 
+    text-decoration: none; 
+    cursor: pointer; 
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+    border: none; 
+    width: 100%; 
+  }
+
+  .btn-primary { 
+    background: var(--green); 
+    color: var(--bg); 
+    box-shadow: 0 4px 12px rgba(14, 216, 107, 0.15);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(14, 216, 107, 0.3);
+    background: #10E672;
+  }
+
+  .btn-outline { 
+    background: transparent; 
+    color: var(--text-primary); 
+    border: 1px solid var(--border); 
+  }
+
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .btn-dark { 
+    background: rgba(0, 0, 0, 0.4); 
+    color: var(--text-secondary); 
+    border: 1px solid var(--border); 
+    font-size: 13px; 
+  }
+
+  .btn-dark:hover {
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .row { display: flex; gap: 12px; } 
+  .row .btn { flex: 1; }
+
+  .footer { 
+    font-size: 11px; 
+    color: var(--text-tertiary); 
+    margin-top: 32px; 
+    font-family: 'JetBrains Mono', monospace; 
+  }
+  
+  .footer a { 
+    color: var(--text-secondary); 
+    text-decoration: none; 
+    transition: color 0.2s;
+  }
+
+  .footer a:hover {
+    color: var(--green);
+  }
+
+  .footer .divider-dot {
+    margin: 0 6px;
+    color: rgba(255,255,255,0.1);
+  }
+
+  @media (max-width: 420px) { 
+    .card { padding: 36px 20px; } 
+    .features { grid-template-columns: 1fr; } 
+    h1 { font-size: 28px; }
+    .pricing-pill { font-size: 12px; padding: 10px 16px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="card">
   <div class="badge"><div class="dot"></div>POLYVISION · FIELD OPS</div>
+  
   <h1>Track your team.<br>Anywhere, anytime.</h1>
-  <p class="sub">Complete field workforce management — GPS tracking, geofence zones, tasks, voice calling, attendance &amp; timesheets. All in one app. No per-user fees. Plans from ₹149/month.</p>
+  
+  <p class="sub">Complete field workforce management — GPS tracking, geofence zones, tasks, voice calling, attendance &amp; timesheets. All in one app.</p>
 
   <div class="features">
-    <div class="feat"><strong><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ED86B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Live GPS</strong> Real-time map tracking</div>
-    <div class="feat"><strong><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ED86B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Geofence</strong> Zone entry/exit alerts</div>
-    <div class="feat"><strong><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ED86B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Tasks</strong> Assign &amp; track progress</div>
-    <div class="feat"><strong><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ED86B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg> Voice Calls</strong> One-tap from map</div>
+    <div class="feat">
+      <div class="feat-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <strong>Live GPS</strong>
+      </div>
+      <span>Real-time map tracking</span>
+    </div>
+    
+    <div class="feat">
+      <div class="feat-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <strong>Geofence</strong>
+      </div>
+      <span>Zone entry & exit alerts</span>
+    </div>
+    
+    <div class="feat">
+      <div class="feat-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <strong>Tasks</strong>
+      </div>
+      <span>Assign & track progress</span>
+    </div>
+    
+    <div class="feat">
+      <div class="feat-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        <strong>Voice Calls</strong>
+      </div>
+      <span>One-tap from map</span>
+    </div>
   </div>
 
-  <p class="pricing">Plans from <strong>₹149/mo</strong> — ₹699/6mo — ₹999/yr — all features included</p>
+  <div class="pricing-pill">
+    Plans from <strong class="highlight">₹149/mo</strong> • ₹699/6mo • ₹999/yr
+  </div>
 
   <div class="actions">
     <div class="row">
       <a class="btn btn-primary" href="intent://polyvision.shiot.in/open?screen=register#Intent;scheme=https;package=com.shiotvstrack;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.shiotvstrack;end">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M16 11h6"/></svg> Register
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M16 11h6"/></svg> 
+        Register
       </a>
       <a class="btn btn-outline" href="intent://polyvision.shiot.in/open?screen=login#Intent;scheme=https;package=com.shiotvstrack;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.shiotvstrack;end">
         Sign In
       </a>
     </div>
     <a class="btn btn-dark" href="https://play.google.com/store/apps/details?id=com.shiotvstrack">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Get on Google Play
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 
+      Get on Google Play
     </a>
   </div>
 
   <div class="footer">
-    <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · WhatsApp <a href="https://wa.me/917385951732">+91 73859 51732</a>
+    <a href="/privacy">Privacy</a> <span class="divider-dot">•</span> 
+    <a href="/terms">Terms</a> <span class="divider-dot">•</span> 
+    <a href="/refund-policy">Refunds</a> <span class="divider-dot">•</span> 
+    <a href="https://wa.me/917385951732">Support</a>
   </div>
 </div>
 
